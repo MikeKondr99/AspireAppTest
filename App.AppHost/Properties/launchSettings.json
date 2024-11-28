@@ -7,7 +7,6 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:17279;http://localhost:15062",
       "environmentVariables": {
-        "PORT": 4200,
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
         "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22062",
