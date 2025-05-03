@@ -1,6 +1,4 @@
-using Keycloak.AuthServices.Authentication;
 using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
 using System.Diagnostics;
 
 
@@ -9,17 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 builder.AddServiceDefaults();
-
 builder.AddNpgsqlDbContext<ApplicationDbContext>("app-postgres-db");
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddCors();
 
-
-builder.Services.AddAuthorization();
+// builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -34,17 +29,17 @@ app.UseCors(static builder =>
 
 
 
-app.UseAuthentication();
-
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
 app.MapDefaultEndpoints();
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();
-    db.Database.Migrate();
+    await Task.Delay(2000);
+    //await db.Database.EnsureCreatedAsync();
+    await db.Database.MigrateAsync();
 
 }
 

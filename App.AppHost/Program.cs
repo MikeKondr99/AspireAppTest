@@ -23,16 +23,15 @@ var db = postgres
 var api = builder
     .AddProject<Projects.App_ApiService>("app-api")
     // .WithReference(realm)
-    .WithReference(db)
-    .WaitFor(db);
-    // .WaitFor(realm);
+    .WithReference(db);
+    // .WaitFor(db);
 
 builder.AddNpmApp("app-angular", "../App.Angular")
     .WithReference(api)
     // .WithReference(realm)
-    .WaitFor(api)
+    // .WaitFor(api)
     .WithHttpEndpoint(env: "PORT")
-    .WithHttpHealthCheck()
+    // .WithHttpHealthCheck()
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 
