@@ -38,20 +38,7 @@ export function initializeKeycloak(keycloak: KeycloakService) {
   ],
   providers: [
     provideRouter(routes),
-    provideClientHydration(),
     provideAnimationsAsync(),
-    KeycloakService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: KeycloakBearerInterceptor,
-      multi: true,
-    },
     provideHttpClient(
       withInterceptorsFromDi() // tell httpClient to use interceptors from DI
     ),
