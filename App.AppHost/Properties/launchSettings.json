@@ -10,7 +10,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
         "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22062",
-
         "DOTNET_DASHBOARD_OTLP_HTTP_ENDPOINT_URL": "https://localhost:16175",
         "DOTNET_DASHBOARD_CORS_ALLOWED_ORIGINS": "*",
         "DASHBOARD__OTLP__CORS__ALLOWEDORIGINS": "*"

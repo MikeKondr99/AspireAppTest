@@ -8,7 +8,6 @@ using System.Diagnostics;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>("app-postgres-db");
@@ -17,17 +16,8 @@ builder.AddNpgsqlDbContext<ApplicationDbContext>("app-postgres-db");
 builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddCors();
 
-builder.Services.AddKeycloakWebApiAuthentication(
-    configuration,
-    options =>
-    {
-        options.Audience = "workspaces-client";
-        options.RequireHttpsMetadata = false;
-    }
-);
 
 builder.Services.AddAuthorization();
 
@@ -35,15 +25,6 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapScalarApiReference(options =>
-    {
-        options.ProxyUrl = $"https://localhost:{Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT")}";
-    });
-    app.MapOpenApi();
-}
 
 app.UseCors(static builder =>
     builder.AllowAnyMethod()
@@ -56,8 +37,6 @@ app.UseCors(static builder =>
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-
 
 app.MapDefaultEndpoints();
 
@@ -88,18 +67,6 @@ app.MapGet("/", (ActivitySource source, ApplicationDbContext db) =>
         return products;
     }
 })
-.WithName("GetWeatherForecast");
-
-app.MapGet("/secure", () =>
-{
-    return "secure";
-})
-.RequireAuthorization();
-
-app.MapGet("/otel", () =>
-{
-    string[] response = [Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT"), Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_HEADERS")];
-    return response;
-});
+.WithName("Get products");
 
 app.Run();
